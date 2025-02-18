@@ -1,0 +1,85 @@
+let playerRole = document.querySelector(".statu");
+let turn = 'x';
+let board = document.querySelector(".board");
+let cellArr = [];
+
+// الحصول على عناصر النقاط لكل لاعب
+let xScoreElement = document.querySelector(".score:first-child .points");
+let oScoreElement = document.querySelector(".score:last-child .points");
+
+// تحويل القيم الافتراضية إلى أرقام
+let xScore = parseInt(xScoreElement.textContent);
+let oScore = parseInt(oScoreElement.textContent);
+
+function showWinner(num1, num2, num3, winner) {
+    document.getElementById('item' + num1).style.background = "#1239";
+    document.getElementById('item' + num2).style.background = "#1239";
+    document.getElementById('item' + num3).style.background = "#1239";
+
+    // تحديث النقاط بناءً على الفائز
+    if (winner === 'X') {
+        xScore++;
+        xScoreElement.textContent = xScore;
+    } else if (winner === 'O') {
+        oScore++;
+        oScoreElement.textContent = oScore;
+    }
+
+    setTimeout(function () {
+        resetBoard();
+    }, 2000);
+}   
+
+function winner() {
+    for (let i = 1; i < 10; i++) {
+        cellArr[i] = document.getElementById('item' + i).innerHTML;
+    }
+
+    let winningConditions = [
+        [1, 2, 3], [4, 5, 6], [7, 8, 9], // الصفوف
+        [1, 4, 7], [2, 5, 8], [3, 6, 9], // الأعمدة
+        [1, 5, 9], [3, 5, 7] // الأقطار
+    ];
+
+    for (let condition of winningConditions) {
+        let [a, b, c] = condition;
+
+        if (cellArr[a] !== '' && cellArr[a] === cellArr[b] && cellArr[a] === cellArr[c]) {
+            showWinner(a, b, c, cellArr[a]);
+            return;
+        }
+    }
+
+    
+}
+
+board.addEventListener("click", (event) => {
+    let cellId = event.target.id;
+    let element = document.getElementById(cellId);
+
+    if (turn === 'x' && element.innerHTML === '') {
+        element.innerHTML = 'X';
+        element.classList.add("x");
+        turn = 'o';
+        playerRole.innerHTML = 'O';
+    } else if (turn === 'o' && element.innerHTML === '') {
+        element.innerHTML = 'O';
+        element.classList.add("o");
+        turn = 'x';
+        playerRole.innerHTML = 'X';
+    }
+
+    winner();
+});
+
+// إعادة تعيين اللوحة عند انتهاء الجولة
+function resetBoard() {
+    for (let i = 1; i < 10; i++) {
+        let cell = document.getElementById('item' + i);
+        cell.innerHTML = '';
+        cell.style.background = '';
+        cell.classList.remove("x", "o");
+    }
+    turn = 'x';
+    playerRole.innerHTML = 'X';
+}

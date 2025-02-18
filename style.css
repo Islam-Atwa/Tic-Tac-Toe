@@ -68,6 +68,10 @@ h1 {
     margin-top: .5rem;
 }
 
+.statu{
+    font-weight: bold;
+}
+
 .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -96,37 +100,38 @@ h1 {
     background: #acb9c5;
 }
 
-.cell.x {
+.x{
     color: #4c51bf;
+    /* font-size: 300px; */
 }
 
-.cell.o {
+.o{
     color: #9f7aea;
 }
 
-.cell.x::before,
-.cell.x::after {
+.element.x::before,
+.element.x::after {
     content: '';
     position: absolute;
     width: 80%;
     height: 3px;
     background: currentColor;
     border-radius: 2px;
-}
+} 
 
-.cell.x::before {
+.element.x::before {
     transform: rotate(45deg);
 }
 
-.cell.x::after {
+.element.x::after {
     transform: rotate(-45deg);
 }
 
-.cell.o::before {
+.element.o::before {
     content: '';
     position: absolute;
-    width: 60%;
-    height: 60%;
+    width: 45%;
+    height: 55%;
     border: 3px solid currentColor;
     border-radius: 50%;
 }
@@ -142,7 +147,7 @@ h1 {
     font-weight: 600;
     cursor: pointer;
     transition: opacity 0.2s;
-}
+} 
 
 .reset-button:hover {
     opacity: 0.9;
@@ -162,8 +167,8 @@ h1 {
     }
 }
 
-.cell.x::before,
-.cell.x::after,
-.cell.o::before {
+.element.x::before,
+.element.x::after,
+.element.o::before {
     animation: pop-in 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 }
